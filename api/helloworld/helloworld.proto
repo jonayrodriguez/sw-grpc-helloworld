@@ -1,0 +1,22 @@
+syntax = "proto3";
+
+option go_package = "sw-grpc-hellowold/pkg/helloworld";
+
+
+package helloworld;
+
+// Helloworld definition.
+service Helloworld {
+  // Sends a HelloRequest
+  rpc SayHelloworld (HelloworldRequest) returns (HelloworldReply) {}
+}
+
+// The request message containing a name.
+message HelloworldRequest {
+  string name = 1;
+}
+
+// The response message containing the helloworld.
+message HelloworldReply {
+  string message = 1;
+}
