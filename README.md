@@ -22,10 +22,10 @@ git clone https://github.com/jonayrodriguez/sw-grpc-helloworld.git
 cd sw-grpc-helloworld
 go mod vendor
 
-# start the server
+# start the server (This will hold your console waiting for requests).
 go run cmd/helloworld/main.go
 
-# start the client for testing (this is just to show how it will consume and as testing for now)
+# start the client in a new console for testing for now (this is just to show how it will be used).
 go run cmd/helloworld_client/main.go
 
 ```
@@ -42,8 +42,8 @@ The POC uses the following project layout:
 │   └── helloworld   	   Helloworld main go file
 │   └── helloworld_client  Helloworld client for testing
 ├── internal               Private application and library code
-│   ├── helloworld         Private folder for helloworld application
-│       ├── server         Helloworld server
+    ├── helloworld         Private folder for helloworld application
+        ├── server         Helloworld server
 
     
 ```
