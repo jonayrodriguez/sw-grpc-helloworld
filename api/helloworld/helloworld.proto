@@ -1,6 +1,6 @@
 syntax = "proto3";
 
-option go_package = "sw-grpc-hellowold/pkg/helloworld";
+option go_package = "sw-grpc-hellowold/api/helloworld";
 
 
 package helloworld;
