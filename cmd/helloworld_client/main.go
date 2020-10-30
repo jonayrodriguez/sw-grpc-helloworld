@@ -13,7 +13,7 @@ import (
 
 const (
 	address     = "localhost:50051"
-	defaultName = "Solarwinds"
+	defaultName = "POC"
 )
 
 func main() {
