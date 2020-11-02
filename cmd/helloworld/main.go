@@ -15,7 +15,7 @@ import (
 )
 
 const (
-	defaultConfigFile = "../../config/default.yml"
+	defaultConfigFile = "./../config/default.yml"
 )
 
 var (
