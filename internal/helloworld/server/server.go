@@ -3,6 +3,7 @@ package helloworld
 import (
 	"context"
 	"log"
+	"sync"
 
 	pb "github.com/logicnow/sw-grpc-helloworld/api/helloworld"
 )
@@ -14,9 +15,18 @@ type Server struct {
 	pb.UnimplementedHelloworldServer
 }
 
-// NewServer to create.
-func NewServer() *Server {
-	return &Server{}
+var instance *Server
+
+// Call somente uma unica vez
+var once sync.Once
+
+// GetServerInstance to create or retrieve an existing instance
+func GetServerInstance() *Server {
+	// Using sync.Once guarantees the uniqueness of our instance, thread safe, ....
+	once.Do(func() {
+		instance = &Server{}
+	})
+	return instance
 }
 
 // SayHelloworld implements helloworld.GreeterServer

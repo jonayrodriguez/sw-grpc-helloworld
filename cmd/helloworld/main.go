@@ -53,7 +53,7 @@ func main() {
 		log.Fatalf("Failed to listen: %v", err)
 	}
 	s := grpc.NewServer()
-	api.RegisterHelloworldServer(s, hwServer.NewServer())
+	api.RegisterHelloworldServer(s, hwServer.GetServerInstance())
 
 	fmt.Printf("Listening on %s\n", address)
 	if err := s.Serve(lis); err != nil {
