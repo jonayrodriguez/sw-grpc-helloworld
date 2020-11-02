@@ -41,9 +41,11 @@ The POC uses the following project layout:
 ├── cmd                    Main applications of the project
 │   └── helloworld   	   Helloworld main go file
 │   └── helloworld_client  Helloworld client for testing
+├── config                 Configuration files yaml,...
 ├── internal               Private application and library code
     ├── helloworld         Private folder for helloworld application
         ├── server         Helloworld server
+        ├── config         Helloworld configuration library
 
     
 ```

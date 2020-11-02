@@ -8,14 +8,14 @@ import (
 	"time"
 
 	api "github.com/logicnow/sw-grpc-helloworld/api/helloworld"
-	config "github.com/logicnow/sw-grpc-helloworld/internal/helloworld/config"
-	server "github.com/logicnow/sw-grpc-helloworld/internal/helloworld/server"
+	hwConfig "github.com/logicnow/sw-grpc-helloworld/internal/helloworld/config"
+	hwServer "github.com/logicnow/sw-grpc-helloworld/internal/helloworld/server"
 
 	"google.golang.org/grpc"
 )
 
 const (
-	defaultConfigPath = "../../config/default.yml"
+	defaultConfigFile = "../../config/default.yml"
 )
 
 var (
@@ -32,17 +32,17 @@ func main() {
 	fmt.Printf("Version: %s\n", version)
 	fmt.Printf("Build Time: %s\n", buildTime)
 
-	var configPath string
+	var configFile string
 
 	if len(os.Args) < 2 {
-		configPath = defaultConfigPath
+		configFile = defaultConfigFile
 	} else {
-		configPath = os.Args[1]
+		configFile = os.Args[1]
 
 	}
-	fmt.Printf("Configuration: %s\n", configPath)
+	fmt.Printf("Configuration file used: %s\n", configFile)
 
-	conf, err := config.LoadConfiguration(configPath)
+	conf, err := hwConfig.LoadConfiguration(configFile)
 	if err != nil {
 		log.Fatalf("Configuration failure: %v", err)
 	}
@@ -50,14 +50,14 @@ func main() {
 	address := fmt.Sprintf("%s%s%d", conf.Server.Host, ":", conf.Server.Port)
 	lis, err := net.Listen("tcp", address)
 	if err != nil {
-		log.Fatalf("failed to listen: %v", err)
+		log.Fatalf("Failed to listen: %v", err)
 	}
 	s := grpc.NewServer()
-	api.RegisterHelloworldServer(s, server.NewServer())
+	api.RegisterHelloworldServer(s, hwServer.NewServer())
 
 	fmt.Printf("Listening on %s\n", address)
 	if err := s.Serve(lis); err != nil {
-		log.Fatalf("failed to serve: %v", err)
+		log.Fatalf("Failed to serve: %v", err)
 	}
 
 }

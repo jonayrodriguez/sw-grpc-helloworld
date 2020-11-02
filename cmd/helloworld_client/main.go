@@ -32,7 +32,11 @@ func main() {
 	}
 	ctx, cancel := context.WithTimeout(context.Background(), time.Second)
 	defer cancel()
+	t0 := time.Now()
+
 	r, err := c.SayHelloworld(ctx, &pb.HelloworldRequest{Name: name})
+	t1 := time.Now()
+	log.Printf("The call took %v to run.\n", t1.Sub(t0).Milliseconds())
 	if err != nil {
 		log.Fatalf("could not greet: %v", err)
 	}
