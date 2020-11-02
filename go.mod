@@ -3,6 +3,7 @@ module github.com/jonayrodriguez/sw-grpc-helloworld
 go 1.15
 
 require (
+	github.com/cucumber/godog v0.10.0
 	github.com/golang/protobuf v1.4.3 // indirect
 	github.com/kelseyhightower/envconfig v1.4.0
 	golang.org/x/net v0.0.0-20201031054903-ff519b6c9102 // indirect
