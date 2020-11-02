@@ -5,7 +5,7 @@ import (
 	"log"
 	"sync"
 
-	pb "github.com/logicnow/sw-grpc-helloworld/api/helloworld"
+	pb "github.com/jonayrodriguez/sw-grpc-helloworld/api/helloworld"
 )
 
 // Singleton pattern could be used here.

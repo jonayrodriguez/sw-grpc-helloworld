@@ -7,9 +7,9 @@ import (
 	"os"
 	"time"
 
-	api "github.com/logicnow/sw-grpc-helloworld/api/helloworld"
-	hwConfig "github.com/logicnow/sw-grpc-helloworld/internal/helloworld/config"
-	hwServer "github.com/logicnow/sw-grpc-helloworld/internal/helloworld/server"
+	api "github.com/jonayrodriguez/sw-grpc-helloworld/api/helloworld"
+	hwConfig "github.com/jonayrodriguez/sw-grpc-helloworld/internal/helloworld/config"
+	hwServer "github.com/jonayrodriguez/sw-grpc-helloworld/internal/helloworld/server"
 
 	"google.golang.org/grpc"
 )

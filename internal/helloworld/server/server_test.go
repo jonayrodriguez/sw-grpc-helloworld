@@ -10,7 +10,7 @@ import (
 
 	"google.golang.org/grpc"
 
-	pb "github.com/logicnow/sw-grpc-helloworld/api/helloworld"
+	pb "github.com/jonayrodriguez/sw-grpc-helloworld/api/helloworld"
 )
 
 const (
@@ -32,7 +32,7 @@ func init() {
 
 	server := grpc.NewServer()
 
-	pb.RegisterHelloworldServer(server, NewServer())
+	pb.RegisterHelloworldServer(server, GetServerInstance())
 
 	go func() {
 		if err := server.Serve(listener); err != nil {
@@ -54,7 +54,7 @@ func TestSayHelloworld(t *testing.T) {
 	}
 	defer conn.Close()
 	client := pb.NewHelloworldClient(conn)
-	resp, err := client.SayHelloworld(ctx, &pb.HelloworldRequest{Name: "sdfds"})
+	resp, err := client.SayHelloworld(ctx, &pb.HelloworldRequest{Name: nameForTest})
 	if err != nil {
 		t.Fatalf("SayHelloworld failed: %v", err)
 	}

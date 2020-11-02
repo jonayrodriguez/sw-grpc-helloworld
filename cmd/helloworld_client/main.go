@@ -7,7 +7,7 @@ import (
 	"os"
 	"time"
 
-	pb "github.com/logicnow/sw-grpc-helloworld/api/helloworld"
+	pb "github.com/jonayrodriguez/sw-grpc-helloworld/api/helloworld"
 	"google.golang.org/grpc"
 )
 

@@ -1,4 +1,4 @@
-module github.com/logicnow/sw-grpc-helloworld
+module github.com/jonayrodriguez/sw-grpc-helloworld
 
 go 1.15
 
@@ -16,4 +16,5 @@ require (
 	gopkg.in/yaml.v2 v2.3.0
 )
 
-replace github.com/logicnow/sw-grpc-helloworld/api/helloworld => ./api/helloworld
+
+replace github.com/jonayrodriguez/sw-grpc-helloworld/api/helloworld => ./api/helloworld
