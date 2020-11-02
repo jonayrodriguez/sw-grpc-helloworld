@@ -9,10 +9,12 @@ import (
 	"syscall"
 	"time"
 
-	api "github.com/jonayrodriguez/sw-grpc-helloworld/api/helloworld"
+	hwpb "github.com/jonayrodriguez/sw-grpc-helloworld/api/helloworld"
 	hwConfig "github.com/jonayrodriguez/sw-grpc-helloworld/internal/helloworld/config"
 	hwServer "github.com/jonayrodriguez/sw-grpc-helloworld/internal/helloworld/server"
 	"google.golang.org/grpc"
+	"google.golang.org/grpc/health"
+	healthpb "google.golang.org/grpc/health/grpc_health_v1"
 )
 
 const (
@@ -54,8 +56,11 @@ func main() {
 		log.Fatalf("Failed to listen: %v", err)
 	}
 	s := grpc.NewServer()
-	api.RegisterHelloworldServer(s, hwServer.GetServerInstance())
+	hwpb.RegisterHelloworldServer(s, hwServer.GetServerInstance())
 
+	healthServer := health.NewServer()
+	healthServer.SetServingStatus("helloword", healthpb.HealthCheckResponse_SERVING)
+	healthpb.RegisterHealthServer(s, healthServer)
 	gracefulShutDown(s)
 	fmt.Printf("Listening on %s\n", address)
 	if err := s.Serve(lis); err != nil {
