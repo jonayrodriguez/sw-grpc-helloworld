@@ -29,7 +29,7 @@ func GetServerInstance() *Server {
 	return instance
 }
 
-// SayHelloworld implements helloworld.GreeterServer
+// SayHelloworld implementation
 func (s *Server) SayHelloworld(ctx context.Context, in *pb.HelloworldRequest) (*pb.HelloworldReply, error) {
 	log.Printf("Received: %v", in.GetName())
 	return &pb.HelloworldReply{Message: "Hello World! " + in.GetName()}, nil

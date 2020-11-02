@@ -5,12 +5,13 @@ import (
 	"log"
 	"net"
 	"os"
+	"os/signal"
+	"syscall"
 	"time"
 
 	api "github.com/jonayrodriguez/sw-grpc-helloworld/api/helloworld"
 	hwConfig "github.com/jonayrodriguez/sw-grpc-helloworld/internal/helloworld/config"
 	hwServer "github.com/jonayrodriguez/sw-grpc-helloworld/internal/helloworld/server"
-
 	"google.golang.org/grpc"
 )
 
@@ -55,9 +56,24 @@ func main() {
 	s := grpc.NewServer()
 	api.RegisterHelloworldServer(s, hwServer.GetServerInstance())
 
+	gracefulShutDown(s)
 	fmt.Printf("Listening on %s\n", address)
 	if err := s.Serve(lis); err != nil {
 		log.Fatalf("Failed to serve: %v", err)
 	}
 
+}
+
+// Basic Channel to handle SIGINT and SIGTERM for a graceful shutdown
+func gracefulShutDown(s *grpc.Server) {
+	ch := make(chan os.Signal)
+	signal.Notify(ch, syscall.SIGINT, syscall.SIGTERM)
+	go func() {
+		defer signal.Stop(ch)
+		sig := <-ch
+		errorMessage := fmt.Sprintf("%s %v - %s", "Received shutdown signal:", sig, "Graceful shutdown done")
+		log.Println(errorMessage)
+		// Stop the service gracefully.
+		s.GracefulStop()
+	}()
 }
