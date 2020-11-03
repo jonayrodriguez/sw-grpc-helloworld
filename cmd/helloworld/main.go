@@ -16,10 +16,6 @@ import (
 	healthpb "google.golang.org/grpc/health/grpc_health_v1"
 )
 
-const (
-	defaultConfigFile = "./../config/default.yml"
-)
-
 var (
 	version string = "v0.0.0"
 )
@@ -32,19 +28,20 @@ func main() {
 	*/
 	fmt.Printf("Version: %s\n", version)
 
-	var configFile string
+	var conf *hwConfig.Config
+	var configError error
 
 	if len(os.Args) < 2 {
-		configFile = defaultConfigFile
+		fmt.Printf("Loading configuration from the env variables.\n")
+		conf, configError = hwConfig.LoadConfiguration("")
+
 	} else {
-		configFile = os.Args[1]
+		fmt.Printf("Loading configuration from %s\n", os.Args[1])
+		conf, configError = hwConfig.LoadConfiguration(os.Args[1])
 
 	}
-	fmt.Printf("Configuration file used: %s\n", configFile)
-
-	conf, err := hwConfig.LoadConfiguration(configFile)
-	if err != nil {
-		log.Fatalf("Configuration failure: %v", err)
+	if configError != nil {
+		log.Fatalf("Configuration failure: %v", configError)
 	}
 
 	address := fmt.Sprintf("%s%s%d", conf.Server.Host, ":", conf.Server.Port)

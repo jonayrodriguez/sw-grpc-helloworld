@@ -8,6 +8,13 @@ import (
 	"gopkg.in/yaml.v2"
 )
 
+const (
+	defaultPort       = 50051
+	defaultHost       = "127.0.0.1"
+	defaultAppName    = "Helloworld"
+	defaultRepository = "https://github.com/jonayrodriguez/sw-grpc-helloworld.git"
+)
+
 // Config represents an application configuration.
 type Config struct {
 	App    App    `yaml:"app"`
@@ -35,26 +42,26 @@ func (c Config) Validate() error {
 // LoadConfiguration returns an application configuration which is populated from the given configuration file and environment variables.
 func LoadConfiguration(file string) (*Config, error) {
 	// default empty config
-	c := Config{}
-
-	// load from YAML config file
-	bytes, err := ioutil.ReadFile(file)
-	if err != nil {
-		return nil, err
+	c := Config{App: App{Name: defaultAppName, Repository: defaultRepository}, Server: Server{Port: defaultPort, Host: defaultHost}}
+	if file != "" {
+		// load from YAML config file
+		bytes, err := ioutil.ReadFile(file)
+		if err != nil {
+			return nil, err
+		}
+		if err = yaml.Unmarshal(bytes, &c); err != nil {
+			return nil, err
+		}
 	}
-	if err = yaml.Unmarshal(bytes, &c); err != nil {
-		return nil, err
-	}
-
-	// load from environment variables prefixed with "APP_"
-	if err = envconfig.Process("", &c); err != nil {
+	// load from environment variables prefixed
+	if err := envconfig.Process("", &c); err != nil {
 		return nil, err
 	}
 
 	// validation
-	if err = c.Validate(); err != nil {
+	if err := c.Validate(); err != nil {
 		return nil, err
 	}
 
-	return &c, err
+	return &c, nil
 }
