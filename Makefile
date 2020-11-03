@@ -34,4 +34,12 @@ dependencies:
 	@go mod download
 
 vendor:
-	@go mod vendor	
+	@go mod vendor
+
+create-local-cluster:
+	cd deploy/kind-local
+	kind create cluster --config ./deploy/kind-local/config.yaml
+	timeout 10
+	kubectl apply -f ./deploy/kind-local/deploy.yaml
+	kubectl wait --namespace ingress-nginx --for=condition=ready pod --selector=app.kubernetes.io/component=controller --timeout=90s
+	kubectl apply -f ./deploy/kind-local/echoservice.yaml
