@@ -8,8 +8,6 @@ import (
 	pb "github.com/jonayrodriguez/sw-grpc-helloworld/api/helloworld"
 )
 
-// Singleton pattern could be used here.
-
 // Server struct for helloworld.
 type Server struct {
 	pb.UnimplementedHelloworldServer

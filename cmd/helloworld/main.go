@@ -7,7 +7,6 @@ import (
 	"os"
 	"os/signal"
 	"syscall"
-	"time"
 
 	hwpb "github.com/jonayrodriguez/sw-grpc-helloworld/api/helloworld"
 	hwConfig "github.com/jonayrodriguez/sw-grpc-helloworld/internal/helloworld/config"
@@ -22,18 +21,16 @@ const (
 )
 
 var (
-	version   string = "v0.0.0"
-	buildTime string = time.Now().Format(time.RFC3339)
+	version string = "v0.0.0"
 )
 
 func main() {
 
 	/* Building binaries with version information and other metadata will improve your monitoring, logging, and debugging processes.
 	   For example:
-	   go build argsXYX -ldflags "-X main.Version=v1.0.0 -X main.buildTime=$(date +"%Y.%m.%d.%H%M%S")"
+	   go build argsXYX -ldflags "-X main.Version=v1.0.0"
 	*/
 	fmt.Printf("Version: %s\n", version)
-	fmt.Printf("Build Time: %s\n", buildTime)
 
 	var configFile string
 
