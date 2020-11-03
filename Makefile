@@ -43,7 +43,9 @@ create-local-cluster:
 	@kubectl apply -f ./deploy/kind-local/deploy.yaml
 	@kubectl wait --namespace ingress-nginx --for=condition=ready pod --selector=app.kubernetes.io/component=controller --timeout=90s
 	@kubectl apply -f ./deploy/kind-local/echoservice.yaml
+	@echo "Local Cluster created"
 
 delete-local-cluster:
 	@echo "Deleting Local Cluster..."
 	@kind delete cluster
+	@echo "Local Cluster deleted"
