@@ -66,7 +66,7 @@ as described in the [clean architecture](https://blog.cleancoder.com/uncle-bob/2
 ## BDD
 
 The project uses [godog](https://github.com/cucumber/godog) to implement BDD test scenarios.
-See [installation instructions] (https://github.com/cucumber/godog#install) to setup your environment.
+See [installation instructions](https://github.com/cucumber/godog#install) to setup your environment.
 
 Run the following commands to execute the BDD tests.
 
