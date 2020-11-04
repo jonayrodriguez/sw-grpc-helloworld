@@ -1,0 +1,7 @@
+app:
+  name: helloword
+  repository: https://github.com/jonayrodriguez/sw-grpc-helloworld.git
+# Server configurations
+server:
+  host: 127.0.0.1
+  port: 50051

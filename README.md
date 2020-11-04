@@ -41,10 +41,13 @@ The POC uses the following project layout:
 ├── cmd                    Main applications of the project
 │   └── helloworld   	   Helloworld main go file
 │   └── helloworld_client  Helloworld client for testing
+├── config                 Configuration files yaml,...
 ├── internal               Private application and library code
     ├── helloworld         Private folder for helloworld application
         ├── server         Helloworld server
-
+        ├── config         Helloworld configuration library
+├── test               	   Artifacts used to test application
+    ├── features           BDD test scenarios and scripts
     
 ```
 
@@ -59,3 +62,20 @@ Within `internal` and `pkg`, packages are structured by features in order to ach
 
 Within each feature, code are organized in layers, following the dependency guidelines
 as described in the [clean architecture](https://blog.cleancoder.com/uncle-bob/2012/08/13/the-clean-architecture.html).
+
+## BDD
+
+The project uses [godog](https://github.com/cucumber/godog) to implement BDD test scenarios.
+See [installation instructions](https://github.com/cucumber/godog#install) to setup your environment.
+
+Run the following commands to execute the BDD tests.
+
+```shell
+
+# Navigate to the "features" folder:
+cd ./test/features
+
+# Run the hellowworld feature tests:
+godog helloworld.feature
+
+```

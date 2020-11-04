@@ -1,8 +1,8 @@
 syntax = "proto3";
 
-option go_package = "sw-grpc-hellowold/pkg/helloworld";
+option go_package = "sw-grpc-hellowold/api/helloworld";
 
-
+//TODO - Adding versioning to the package
 package helloworld;
 
 // Helloworld definition.

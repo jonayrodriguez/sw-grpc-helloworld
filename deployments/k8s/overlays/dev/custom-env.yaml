@@ -1,0 +1,12 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: helloworld-grpc
+spec:
+  template:
+    spec:
+      containers:
+        - name: helloworld-grpc
+          env:
+            - name: SERVER_PORT
+              value: 50051
