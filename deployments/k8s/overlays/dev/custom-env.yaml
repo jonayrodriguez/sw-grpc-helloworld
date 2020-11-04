@@ -6,7 +6,7 @@ spec:
   template:
     spec:
       containers:
-        - name: helloworld-grpc # (1)
+        - name: helloworld-grpc
           env:
-            - name: CUSTOM_ENV_VARIABLE
-              value: Value defined by Kustomize
+            - name: SERVER_PORT
+              value: 50051
