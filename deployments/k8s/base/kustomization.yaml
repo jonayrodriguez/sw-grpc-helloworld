@@ -6,6 +6,7 @@ namespace: helloworld
 
 resources:
 - namespace.yaml
+- ingress.yaml
 - helloworld-service.yaml
 - helloworld-deployment.yaml
   

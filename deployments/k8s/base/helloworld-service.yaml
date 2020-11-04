@@ -1,10 +1,10 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: helloworld-grpc
+  name: hw-grpc-service
 spec:
   selector:
-    app: helloworld-grpc
+    app: hw-grpc-app
   ports:
     - protocol: TCP
       port: 50051

@@ -4,6 +4,8 @@
 # However, when building an executable for Windows and providing a different name, 
 # be sure to explicitly specify the .exesuffix when setting the executable’s name
 
+# We should set / export KO_DOCKER_REPO=kind.local here 
+
 compile:
 	@echo "Compiling proto files..."
 	@protoc api\helloworld\helloworld.proto --go_out=. --go_opt=paths=source_relative --go-grpc_out=. --go-grpc_opt=paths=source_relative
@@ -35,6 +37,12 @@ dependencies:
 
 vendor:
 	@go mod vendor
+
+build-container:
+	@docker build -t sw-grpc-helloworld -f build/Dockerfile .
+
+run-container:	
+	@docker run -p 50051:50051  -it --rm --name sw-grpc-helloworld-service sw-grpc-helloworld
 
 create-local-cluster:
 	@echo "Creating Local Cluster..."
