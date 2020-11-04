@@ -17,7 +17,8 @@ import (
 )
 
 var (
-	version string = "v0.0.0"
+	version    string = "v0.0.0"
+	configFile string
 )
 
 func main() {
@@ -26,22 +27,16 @@ func main() {
 	   For example:
 	   go build argsXYX -ldflags "-X main.Version=v1.0.0"
 	*/
-	fmt.Printf("Version: %s\n", version)
+	log.Printf("Version: %s\n", version)
 
-	var conf *hwConfig.Config
-	var configError error
-
-	if len(os.Args) < 2 {
-		fmt.Printf("Loading configuration from the env variables.\n")
-		conf, configError = hwConfig.LoadConfiguration("")
-
-	} else {
-		fmt.Printf("Loading configuration from %s\n", os.Args[1])
-		conf, configError = hwConfig.LoadConfiguration(os.Args[1])
+	if len(os.Args) >= 2 {
+		configFile = os.Args[1]
 
 	}
-	if configError != nil {
-		log.Fatalf("Configuration failure: %v", configError)
+	log.Println("Loading configuration ...")
+	conf, err := hwConfig.LoadConfiguration(configFile)
+	if err != nil {
+		log.Fatalf("Configuration failure: %v", err)
 	}
 
 	address := fmt.Sprintf("%s%s%d", conf.Server.Host, ":", conf.Server.Port)
@@ -52,11 +47,15 @@ func main() {
 	s := grpc.NewServer()
 	hwpb.RegisterHelloworldServer(s, hwServer.GetServerInstance())
 
+	// HealhCheck
 	healthServer := health.NewServer()
 	healthServer.SetServingStatus("helloword", healthpb.HealthCheckResponse_SERVING)
 	healthpb.RegisterHealthServer(s, healthServer)
+
+	// Gracefull Shutdown
 	gracefulShutDown(s)
-	fmt.Printf("Listening on %s\n", address)
+
+	log.Printf("Listening on %s\n", address)
 	if err := s.Serve(lis); err != nil {
 		log.Fatalf("Failed to serve: %v", err)
 	}
@@ -72,7 +71,6 @@ func gracefulShutDown(s *grpc.Server) {
 		sig := <-ch
 		errorMessage := fmt.Sprintf("%s %v - %s", "Received shutdown signal:", sig, "Graceful shutdown done")
 		log.Println(errorMessage)
-		// Stop the service gracefully.
 		s.GracefulStop()
 	}()
 }
