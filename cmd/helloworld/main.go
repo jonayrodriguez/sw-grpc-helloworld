@@ -47,7 +47,7 @@ func main() {
 	s := grpc.NewServer()
 	hwpb.RegisterHelloworldServer(s, hwServer.GetServerInstance())
 
-	// HealhCheck
+	// HealthCheck
 	healthServer := health.NewServer()
 	healthServer.SetServingStatus("helloword", healthpb.HealthCheckResponse_SERVING)
 	healthpb.RegisterHealthServer(s, healthServer)
