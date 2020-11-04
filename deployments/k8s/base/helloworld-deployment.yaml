@@ -15,7 +15,7 @@ spec:
       containers:
         - name: helloworld-grpc
           # This is the import path for the Go binary to build and run.
-          image: ko://github.com/logicnow/smp-poc/cmd/catalogue
+          image: ko://github.com/jonayrodriguez/sw-grpc-helloworld/cmd/helloworld
           ports:
             - containerPort: 50051
             - protocol: TCP
