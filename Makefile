@@ -44,7 +44,9 @@ build-container:
 run-container:	
 	@docker run -p 50051:50051  -it --rm --name sw-grpc-helloworld-service sw-grpc-helloworld
 
-create-local-cluster:
+build-run-container: build-container run-container
+
+create-local-cluster: build-container
 	@echo "Creating Local Cluster..."
 	@kind create cluster --config ./deployments/kind-local/config.yaml
 	@timeout 10

@@ -1,0 +1,30 @@
+apiVersion: skaffold/v2beta9
+kind: Config
+metadata:
+  name: sw-grpc-helloworld
+build:
+  tagPolicy:
+    sha256: {}
+  artifacts:
+  - image: sw-grpc-helloworld-image
+    custom:
+      buildCommand: make build-run-container
+      dependencies:
+        paths:
+        - .
+    
+deploy:
+  kustomize:
+    paths:
+    - deployments\k8s\overlays\dev
+profiles:
+- name: base
+  deploy:
+    kustomize:
+      paths:
+      - deployments\k8s\base
+- name: prod
+  deploy:
+    kustomize:
+      paths:
+      - deployments\k8s\overlays\prod

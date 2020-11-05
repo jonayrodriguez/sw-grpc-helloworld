@@ -5,4 +5,5 @@ bases:
 - ../../base
 
 patchesStrategicMerge:
+- custom-env.yaml    
 - replica-and-rollout-strategy.yaml

@@ -1,7 +1,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: helloworld-grpc
+  name: helloworld-deployment
 spec:
   selector:
     matchLabels:
@@ -13,16 +13,17 @@ spec:
         app: hw-grpc-app
     spec:
       containers:
-        - name: hw-grpc-image
+        - name: hw-grpc-container
           # This is the import path for the Go binary to build and run.
           image: ko://github.com/jonayrodriguez/sw-grpc-helloworld/cmd/helloworld
           ports:
-            - name: hw-grcp-api
+            - name: hw-grcp
               containerPort: 50051
-              protocol: TCP
           env:
             - name: "GRPC_GO_LOG_VERBOSITY_LEVEL"
               value: "99"
             - name: "GRPC_GO_LOG_SEVERITY_LEVEL"
               value: "info"
+            - name: "SERVER_HOST"
+              value: "0.0.0.0"
          

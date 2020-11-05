@@ -1,21 +1,28 @@
-apiVersion: extensions/v1beta1
+apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   annotations:
-    cert-manager.io/cluster-issuer: letsencrypt-prod
-    kubernetes.io/ingress.class: nginx
-    nginx.ingress.kubernetes.io/backend-protocol: GRPC
-    nginx.ingress.kubernetes.io/force-ssl-redirect: "false"
-    nginx.ingress.kubernetes.io/ssl-passthrough: "false"
-    nginx.ingress.kubernetes.io/ssl-redirect: "false"
-    service.beta.kubernetes.io/aws-load-balancer-type: nlb
-  name: hw-grpc-ingress
+    kubernetes.io/ingress.class: "nginx"
+    nginx.ingress.kubernetes.io/ssl-redirect: "true"
+    nginx.ingress.kubernetes.io/backend-protocol: "GRPC"
+  name: helloworld-ingress
   namespace: helloworld
 spec:
   rules:
-  - host: localhost
+  - host: happy.k8s.io
     http:
       paths:
-      - backend:
-          serviceName: hw-grpc-service
-          servicePort: 50051
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: hw-grpc-service
+            port:
+              number: 50051
+  tls:
+    # This secret must exist beforehand
+    # The cert must also contain the subj-name fortune-teller.stack.build
+    # https://github.com/kubernetes/ingress-nginx/blob/master/docs/examples/PREREQUISITES.md#tls-certificates
+    - secretName: hw-tls
+      hosts:
+        - happy.k8s.io
