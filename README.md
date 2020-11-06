@@ -73,9 +73,9 @@ Run the following commands to execute the BDD tests.
 ```shell
 
 # Navigate to the "features" folder:
-cd ./test/features
+cd ./test
 
 # Run the hellowworld feature tests:
-godog helloworld.feature
+go test
 
 ```

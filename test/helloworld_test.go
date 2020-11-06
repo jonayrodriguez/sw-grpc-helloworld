@@ -1,10 +1,14 @@
-package helloworld
+package test
 
 import (
 	"context"
+	"flag"
 	"fmt"
+	"github.com/cucumber/godog/colors"
 	"log"
 	"net"
+	"os"
+	"testing"
 
 	"github.com/cucumber/godog"
 	helloApi "github.com/jonayrodriguez/sw-grpc-helloworld/api/helloworld"
@@ -13,11 +17,35 @@ import (
 	"google.golang.org/grpc/test/bufconn"
 )
 
+var opts = godog.Options{
+	Output: colors.Colored(os.Stdout),
+	Format: "progress", // can define default values
+}
+
 var listener *bufconn.Listener
 var reply *helloApi.HelloworldReply
 
 // Expected response prefix
 const expectedResponsePrefix = "Hello World! "
+
+func TestMain(m *testing.M) {
+	flag.Parse()
+	opts.Paths = flag.Args()
+
+	status := godog.TestSuite{
+		Name: "godogs",
+		TestSuiteInitializer: InitializeTestSuite,
+		ScenarioInitializer:  InitializeScenario,
+		Options: &opts,
+	}.Run()
+
+	// Optional: Run `testing` package's logic besides godog.
+	if st := m.Run(); st > status {
+		status = st
+	}
+
+	os.Exit(status)
+}
 
 // Given client is configured to contact server
 func clientIsConfiguredToContactServer() error {
@@ -62,11 +90,19 @@ func serverShouldRespondWithHelloWorld(clientMessage string) error {
 	return nil
 }
 
-// Feature Steps
-func FeatureContext(s *godog.Suite) {
-	s.Step(`^client is configured to contact server$`, clientIsConfiguredToContactServer)
-	s.Step(`^I say hello to server with "([^"]*)"$`, iSayHelloToServerWith)
-	s.Step(`^server should respond with helloWorld "([^"]*)"$`, serverShouldRespondWithHelloWorld)
+func InitializeTestSuite(ctx *godog.TestSuiteContext) {
+	ctx.BeforeSuite(func() {
+		log.Println("BeforeSuite") })
+}
+
+func InitializeScenario(ctx *godog.ScenarioContext) {
+	ctx.BeforeScenario(func(*godog.Scenario) {
+		log.Println("Before Scenario") // clean the state before every scenario
+	})
+
+	ctx.Step(`^client is configured to contact server$`, clientIsConfiguredToContactServer)
+	ctx.Step(`^I say hello to server with "([^"]*)"$`, iSayHelloToServerWith)
+	ctx.Step(`^server should respond with helloWorld "([^"]*)"$`, serverShouldRespondWithHelloWorld)
 }
 
 func bufDialer(context.Context, string) (net.Conn, error) {
