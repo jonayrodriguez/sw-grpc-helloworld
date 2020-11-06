@@ -30,7 +30,7 @@ unitTest: dependencies
 
 bddTest: dependencies
 	@echo "BDD test running..."
-	@cd .\test\features && godog .\helloworld.feature
+	@cd .\test\features && go test
 
 dependencies:
 	@go mod download
