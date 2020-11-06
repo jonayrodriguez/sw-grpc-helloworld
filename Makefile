@@ -46,7 +46,7 @@ run-container:
 
 build-run-container: build-container run-container
 
-create-local-cluster: build-container
+create-local-cluster:
 	@echo "Creating Local Cluster..."
 	@kind create cluster --config ./deployments/kind-local/config.yaml
 	@timeout 10
