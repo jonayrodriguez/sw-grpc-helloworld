@@ -39,7 +39,7 @@ vendor:
 	@go mod vendor
 
 build-container:
-	@docker build -t sw-grpc-helloworld -f build/Dockerfile .
+	@docker build -t $(PROJECT_NAME) -f build/Dockerfile --build-arg PROJECT_NAME=$(PROJECT_NAME) --build-arg SERVICE_NAME=$(SERVICE_NAME) .
 
 run-container:	
 	@docker run -p 50051:50051  -it --rm --name sw-grpc-helloworld-service sw-grpc-helloworld
@@ -61,3 +61,6 @@ delete-local-cluster:
 
 deploy-local:
 	@kustomize build deployments/k8s/overlays/dev | ko apply -f -	
+
+test-args:
+	@echo $(service)

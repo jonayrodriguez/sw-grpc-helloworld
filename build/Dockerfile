@@ -1,14 +1,26 @@
 FROM golang:1.15
 
-WORKDIR /go/sw-grpc-helloworld
+ARG PROJECT_NAME
+ENV PROJECT_NAME=${PROJECT_NAME:-sw-grpc-helloworld}
+
+ARG SERVICE_NAME
+ENV SERVICE_NAME=${SERVICE_NAME:-helloworld}
+
+ARG SERVICE_HOST
+ENV SERVICE_HOST=${SERVICE_HOST:-0.0.0.0}
+
+ARG SERVICE_PORT
+ENV SERVICE_PORT=${SERVICE_PORT:-50051}
+
+WORKDIR /go/$PROJECT_NAME
 COPY . .
 RUN go get -d -v ./...
-WORKDIR /go/sw-grpc-helloworld/cmd/helloworld
+
+WORKDIR /go/$PROJECT_NAME/cmd/$SERVICE_NAME
 
 RUN go build main.go 
 
-ENV SERVER_HOST=0.0.0.0
-EXPOSE 50051
+EXPOSE $SERVICE_PORT
 
 CMD ["./main"]
 
