@@ -3,8 +3,9 @@ kind: Ingress
 metadata:
   annotations:
     kubernetes.io/ingress.class: "nginx"
-    nginx.ingress.kubernetes.io/ssl-redirect: "true"
     nginx.ingress.kubernetes.io/backend-protocol: "GRPC"
+    nginx.ingress.kubernetes.io/grpc-backend: "true"
+
   name: helloworld-ingress
   namespace: helloworld
 spec:
@@ -20,9 +21,6 @@ spec:
             port:
               number: 50051
   tls:
-    # This secret must exist beforehand
-    # The cert must also contain the subj-name fortune-teller.stack.build
-    # https://github.com/kubernetes/ingress-nginx/blob/master/docs/examples/PREREQUISITES.md#tls-certificates
-    - secretName: hw-tls
+    - secretName: hw-happy-tls
       hosts:
         - happy.k8s.io

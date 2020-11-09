@@ -13,7 +13,7 @@ import (
 )
 
 const (
-	address     = "127.0.0.1:50051"
+	address     = "happy.k8s.io:443"
 	defaultName = "POC"
 )
 

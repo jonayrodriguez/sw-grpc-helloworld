@@ -5,19 +5,19 @@ metadata:
 spec:
   selector:
     matchLabels:
-      app: hw-grpc-app
-  replicas: 2
+      app: hw-grpc-service
+  replicas: 1
   template:
     metadata:
       labels:
-        app: hw-grpc-app
+        app: hw-grpc-service
     spec:
       containers:
         - name: hw-grpc-container
           # This is the import path for the Go binary to build and run.
           image: ko://github.com/jonayrodriguez/sw-grpc-helloworld/cmd/helloworld
           ports:
-            - name: hw-grcp
+            - name: grpc
               containerPort: 50051
           env:
             - name: "GRPC_GO_LOG_VERBOSITY_LEVEL"

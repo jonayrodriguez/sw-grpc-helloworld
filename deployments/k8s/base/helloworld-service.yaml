@@ -4,8 +4,9 @@ metadata:
   name: hw-grpc-service
 spec:
   selector:
-    app: hw-grpc-app
+    app: hw-grpc-service
   ports:
-    - protocol: TCP
+    - name: grpc
+      protocol: TCP
       port: 50051
       targetPort: 50051
